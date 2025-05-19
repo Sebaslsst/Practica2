@@ -1,0 +1,74 @@
+[
+  {
+    "route": "",
+    "flowLayout": false,
+    "params": {},
+    "title": "Main Layout",
+    "children": [
+      {
+        "route": "",
+        "menu": {
+          "exclude": true
+        },
+        "flowLayout": false,
+        "params": {},
+        "title": "Main"
+      },
+      {
+        "route": "album-list",
+        "title": "Álbumes",
+        "menu": {
+          "icon": "vaadin:clipboard-check",
+          "order": 2,
+          "title": "Álbumes"
+        },
+        "flowLayout": false,
+        "params": {}
+      },
+      {
+        "route": "artista-list",
+        "title": "Artistas",
+        "menu": {
+          "icon": "vaadin:clipboard-check",
+          "order": 1,
+          "title": "Artistas"
+        },
+        "flowLayout": false,
+        "params": {}
+      },
+      {
+        "route": "artistabanda-list",
+        "title": "Artista Banda",
+        "menu": {
+          "icon": "vaadin:clipboard-check",
+          "order": 3,
+          "title": "Artista Banda"
+        },
+        "flowLayout": false,
+        "params": {}
+      },
+      {
+        "route": "banda-list",
+        "title": "Banda",
+        "menu": {
+          "icon": "vaadin:clipboard-check",
+          "order": 2,
+          "title": "Banda"
+        },
+        "flowLayout": false,
+        "params": {}
+      },
+      {
+        "route": "task-list",
+        "title": "Task List",
+        "menu": {
+          "icon": "vaadin:clipboard-check",
+          "order": 1,
+          "title": "Task List"
+        },
+        "flowLayout": false,
+        "params": {}
+      }
+    ]
+  }
+]
