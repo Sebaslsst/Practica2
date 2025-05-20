@@ -53,13 +53,8 @@ public class BandaService {
         List<HashMap> lista = new ArrayList<>();
         if(!db.listAll().isEmpty()) {
             Banda [] arreglo = db.listAll().toArray();
-           
             for(int i = 0; i < arreglo.length; i++) {
-                
-                HashMap<String, String> aux = new HashMap<>();
-                aux.put("id", arreglo[i].getId().toString(i));                
-                aux.put("nombre", arreglo[i].getNombre());
-                lista.add(aux);
+                lista.add(arreglo[i].toDict());
             }
         }
         return lista;

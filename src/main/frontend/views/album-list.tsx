@@ -115,7 +115,6 @@ export default function AlbumView() {
         <GridColumn renderer={indexRenderer} header="Nro" />
         <GridColumn path="nombre" header="Nombre del álbum" />
         <GridColumn path="fecha" header="Fecha" />
-        <GridColumn path="id_banda" header="ID Banda" />
       </Grid>
     </main>
   );

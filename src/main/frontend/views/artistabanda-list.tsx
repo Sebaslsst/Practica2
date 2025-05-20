@@ -1,12 +1,15 @@
 import { ViewConfig } from '@vaadin/hilla-file-router/types.js';
-import { Button, Dialog, Grid, GridColumn, TextField, VerticalLayout } from '@vaadin/react-components';
+import { Button, DatePicker, Dialog, Grid, GridColumn, GridItemModel, TextArea, TextField, VerticalLayout } from '@vaadin/react-components';
 import { Notification } from '@vaadin/react-components/Notification';
 
 import { useSignal } from '@vaadin/hilla-react-signals';
 import handleError from 'Frontend/views/_ErrorHandler';
 import { Group, ViewToolbar } from 'Frontend/components/ViewToolbar';
+
 import { useDataProvider } from '@vaadin/hilla-react-crud';
-import { ArtistaBandaService } from 'Frontend/generated/endpoints';
+import Banda from 'Frontend/generated/practica/com/base/models/Banda';
+import { ArtistaBandaService, BandaService, ExpresionService } from 'Frontend/generated/endpoints';
+import Expresion from 'Frontend/generated/practica/com/base/models/Expresion';
 
 export const config: ViewConfig = {
   title: 'Artista Banda',
@@ -23,7 +26,6 @@ type BandaEntryFormProps = {
 
 function BandaEntryForm(props: BandaEntryFormProps) {
   const dialogOpened = useSignal(false);
-  const nombre = useSignal('');
 
   const open = () => {
     dialogOpened.value = true;
@@ -31,32 +33,34 @@ function BandaEntryForm(props: BandaEntryFormProps) {
 
   const close = () => {
     dialogOpened.value = false;
-    nombre.value = '';
   };
 
+  const expresion = useSignal('');
+
+
   const createBanda = async () => {
-    try {
-      if (nombre.value.trim().length > 0) {
-        // Use the correct method from ArtistaBandaService
-        await ArtistaBandaService.createBanda(nombre.value, undefined);
-        if (props.onBandaCreated) {
-          props.onBandaCreated();
+      try {
+        if (expresion.value.trim().length > 0) {
+          await ExpresionService.create(expresion.value);
+          if (props.onBandaCreated) {
+            props.onBandaCreated();
+          }
+          expresion.value = '';
+         
+          dialogOpened.value = false;
+          Notification.show('Banda creada exitosamente', { duration: 5000, position: 'bottom-end', theme: 'success' });
+        } else {
+          Notification.show('No se pudo crear, faltan datos', { duration: 5000, position: 'top-center', theme: 'error' });
         }
-        nombre.value = '';
-        dialogOpened.value = false;
-        Notification.show('Banda creada exitosamente', { duration: 5000, position: 'bottom-end', theme: 'success' });
-      } else {
-        Notification.show('No se pudo crear, faltan datos', { duration: 5000, position: 'top-center', theme: 'error' });
+  
+      } catch (error) {
+        console.log(error);
+        handleError(error);
       }
-    } catch (error) {
-      console.log(error);
-      handleError(error);
-    }
-  };
+    };
 
   return (
     <>
-      <Button onClick={open} theme="primary">Registrar Banda</Button>
       <Dialog
         aria-label="Registrar Banda"
         draggable
@@ -93,20 +97,27 @@ function BandaEntryForm(props: BandaEntryFormProps) {
           theme="spacing"
           style={{ width: '300px', maxWidth: '100%', alignItems: 'stretch' }}
         >
-          <TextField
-            label="Nombre"
-            placeholder="Ingrese el nombre de la banda"
-            aria-label="Ingrese el nombre de la banda"
-            value={nombre.value}
-            onValueChanged={e => (nombre.value = e.detail.value)}
-          />
+          <VerticalLayout style={{ alignItems: 'stretch' }}>
+            <TextField label="Nombre"
+              placeholder='Ingrese el nombre de la banda'
+              aria-label='Ingrese el nombre de la banda'
+              value={expresion.value}
+              onValueChanged={(evt) => (expresion.value = evt.detail.value)}
+            />
+            
+          </VerticalLayout>
         </VerticalLayout>
       </Dialog>
+      <Button onClick={open}>Registrar</Button>
     </>
   );
 }
 
-function LinkRenderer() {
+const dateFormatter = new Intl.DateTimeFormat(undefined, {
+  dateStyle: 'medium',
+});
+
+function link({ item }: { item: Banda }) {
   return (
     <span>
       <Button>
@@ -116,15 +127,25 @@ function LinkRenderer() {
   );
 }
 
-function IndexRenderer({ model }: { model: { index: number } }) {
-  return <span>{model.index + 1}</span>;
+function view_valid({ item }: { item: Expresion }) {
+  return (
+    <span>
+      {item.isCorrecto ? "Verdadero" : "Falso"}
+    </span>
+  );
+}
+
+function index({ model }: { model: GridItemModel<Expresion> }) {
+  return (
+    <span>
+      {model.index + 1}
+    </span>
+  );
 }
 
 export default function ArtistaBandaListView() {
   const dataProvider = useDataProvider({
-    list: async (request, filter) => {
-      return await ArtistaBandaService.listAll();
-    },
+    list: () => ArtistaBandaService.listAll().then(result => result ?? []),
   });
 
   return (
@@ -135,11 +156,13 @@ export default function ArtistaBandaListView() {
         </Group>
       </ViewToolbar>
       <Grid dataProvider={dataProvider.dataProvider}>
-        <GridColumn header="Nro" renderer={IndexRenderer} />
-        <GridColumn path="artista" header="Artista" />
-        <GridColumn path="banda" header="Banda" />
-        <GridColumn path="rol" header="Rol" />
-        <GridColumn header="Acciones" renderer={LinkRenderer} />
+        <GridColumn header="Nro" renderer={index} />
+        <GridColumn path="artista" header="Artista"/>
+        <GridColumn path="banda" header="Banda"/> 
+        <GridColumn path="rol" header="Rol"/>
+        
+        
+        <GridColumn header="Acciones" renderer={link} />
       </Grid>
     </main>
   );

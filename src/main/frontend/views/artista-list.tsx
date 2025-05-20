@@ -98,7 +98,6 @@ const ArtistaEntryForm: React.FC<ArtistaEntryFormProps> = (props) => {
   );
 };
 
-// Formulario para actualizar artista
 const ArtistaEntryFormUpdate: React.FC<ArtistaEntryFormUpdateProps> = (props) => {
   const pais = useSignal<string[]>([]);
   useEffect(() => {
@@ -174,7 +173,6 @@ export default function ArtistaView() {
     },
   });
 
-  // Renderer para la columna de índice
   const indexRenderer = ({ model }: { model: GridItemModel<Artista> }) => (
     <span>{model.index + 1}</span>
   );

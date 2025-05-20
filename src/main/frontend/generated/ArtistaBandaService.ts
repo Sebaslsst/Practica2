@@ -1,12 +1,4 @@
 import { EndpointRequestInit as EndpointRequestInit_1 } from "@vaadin/hilla-frontend";
 import client_1 from "./connect-client.default.js";
-import type Banda_1 from "./practica/com/base/models/Banda.js";
-async function createBanda_1(nombre: string | undefined, fecha: string | undefined, init?: EndpointRequestInit_1): Promise<void> { return client_1.call("ArtistaBandaService", "createBanda", { nombre, fecha }, init); }
-async function listAllBanda_1(init?: EndpointRequestInit_1): Promise<Array<Banda_1 | undefined> | undefined> { return client_1.call("ArtistaBandaService", "listAllBanda", {}, init); }
-async function listBanda_1(init?: EndpointRequestInit_1): Promise<Array<Record<string, unknown> | undefined> | undefined> { return client_1.call("ArtistaBandaService", "listBanda", {}, init); }
-async function updateBanda_1(id: number | undefined, nombre: string | undefined, fecha: string | undefined, init?: EndpointRequestInit_1): Promise<void> { return client_1.call("ArtistaBandaService", "updateBanda", { id, nombre, fecha }, init); }
-export { createBanda_1 as createBanda, listAllBanda_1 as listAllBanda, listBanda_1 as listBanda, updateBanda_1 as updateBanda };
-  export function listAll(): unknown[] | PromiseLike<unknown[]> {
-    throw new Error('Function not implemented.');
-  }
-
+async function listAll_1(init?: EndpointRequestInit_1): Promise<Array<Record<string, unknown> | undefined> | undefined> { return client_1.call("ArtistaBandaService", "listAll", {}, init); }
+export { listAll_1 as listAll };
