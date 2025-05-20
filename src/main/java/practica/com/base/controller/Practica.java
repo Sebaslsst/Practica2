@@ -81,6 +81,7 @@ public class Practica {
     public static List<Integer> detectarRepetidosArreglo(int[] arr) {
         HashSet<Integer> unicos = new HashSet<>();
         List<Integer> repetidos = new ArrayList<>();
+        
         for (int valor : arr) {
             if (!unicos.add(valor)) {
                 if (!repetidos.contains(valor)) {
@@ -113,6 +114,7 @@ public class Practica {
         String filePath = "data.txt";
         long[] tiemposLista = new long[3];
         long[] tiemposArreglo = new long[3];
+        Scanner scanner = new Scanner(System.in);
 
         for (int i = 1; i <= 3; i++) {
             LinkedList<Integer> list = new LinkedList<>();
@@ -126,9 +128,12 @@ public class Practica {
             List<Integer> repetidosLista = detectarYGuardarRepetidos(list);
             long totalTiempo = System.currentTimeMillis() - tiempoInicio;
             tiemposLista[i - 1] = totalTiempo;
-            System.out.println("Lista enlazada - Ejecución " + i + ":\t" + totalTiempo + " ms");
-            System.out.println("Repetidos en lista enlazada: " + repetidosLista);
-            System.out.println("Cantidad de elementos repetidos en lista enlazada: " + repetidosLista.size());
+            System.out.println("Lista enlazada - Ejecución " + i + ":");
+            System.out.println("Valores repetidos detectados: " + repetidosLista);
+            System.out.println("Cantidad de elementos repetidos: " + repetidosLista.size());
+            System.out.println("Presiona Enter para ver el tiempo de ejecución...");
+            scanner.nextLine();
+            System.out.println("Tiempo de ejecución: " + totalTiempo + " ms\n");
         }
 
         for (int i = 1; i <= 3; i++) {
@@ -143,9 +148,12 @@ public class Practica {
             List<Integer> repetidosArr = detectarRepetidosArreglo(arr);
             long totalTiempo = System.currentTimeMillis() - tiempoInicio;
             tiemposArreglo[i - 1] = totalTiempo;
-            System.out.println("Arreglo - Ejecución " + i + ":\t" + totalTiempo + " ms");
-            System.out.println("Repetidos en arreglo: " + repetidosArr);
-            System.out.println("Cantidad de elementos repetidos en arreglo: " + repetidosArr.size());
+            System.out.println("Arreglo - Ejecución " + i + ":");
+            System.out.println("Valores repetidos detectados: " + repetidosArr);
+            System.out.println("Cantidad de elementos repetidos: " + repetidosArr.size());
+            System.out.println("Presiona Enter para ver el tiempo de ejecución...");
+            scanner.nextLine();
+            System.out.println("Tiempo de ejecución: " + totalTiempo + " ms\n");
         }
 
         System.out.println("\nTabla comparativa de tiempos:");

@@ -8,5 +8,15 @@
         "id": 2,
         "nombre": "Pop",
         "id_cancion": 2
+    },
+    {
+        "id": 3,
+        "nombre": "Salsa",
+        "id_cancion": 3
+    },
+    {
+        "id": 4,
+        "nombre": "Baladas",
+        "id_cancion": 4
     }
 ]

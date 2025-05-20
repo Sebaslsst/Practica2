@@ -61,5 +61,21 @@ public class DaoGenero extends AdapterDao<Genero> {
             System.out.println("GUARDADO: " + da.getObj());
         else
             System.out.println("Hubo un error");
+        da.setObj(null);
+        da.getObj().setId(da.listAll().getLength() + 1);
+        da.getObj().setNombre("Salsa");
+        da.getObj().setId_cancion(3);
+        if (da.save())
+            System.out.println("GUARDADO: " + da.getObj());
+        else
+            System.out.println("Hubo un error");    
+        da.setObj(null);
+        da.getObj().setId(da.listAll().getLength() + 1);
+        da.getObj().setNombre("Baladas");
+        da.getObj().setId_cancion(4);
+        if (da.save())
+            System.out.println("GUARDADO: " + da.getObj());
+        else
+            System.out.println("Hubo un error");    
     }
 }
