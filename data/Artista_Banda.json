@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "rol": "BATERISTA",
+        "id_artista": 1,
+        "id_banda": 1
+    },
+    {
+        "id": 2,
+        "rol": "GUITARRISTA",
+        "id_artista": 2,
+        "id_banda": 2
+    },
+    {
+        "id": 3,
+        "rol": "BATERISTA",
+        "id_artista": 1,
+        "id_banda": 1
+    },
+    {
+        "id": 4,
+        "rol": "GUITARRISTA",
+        "id_artista": 2,
+        "id_banda": 2
+    }
+]

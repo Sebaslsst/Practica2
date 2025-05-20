@@ -1,0 +1,16 @@
+[
+    {
+        "id": 1,
+        "nombres": "Leonardo",
+        "nacionalidad": "Ecuatoriana"
+    },
+    {
+        "id": 2,
+        "nombres": "Sebastian",
+        "nacionalidad": "Ecuatoriana"
+    },
+    {
+        "nombres": "Juan",
+        "nacionalidad": "Bolivia"
+    }
+]
