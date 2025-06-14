@@ -1,7 +1,10 @@
 package practica.com.base.controller.datastruct.list;
 
+
+
 import practica.com.base.controller.datastruct.stack.Stack;
 import practica.com.base.controller.datastruct.stack.StackImplementation;
+import practica.com.base.models.Cancion;
 
 public class LinkedList<E> {
     private Node<E> head;
@@ -240,9 +243,8 @@ public class LinkedList<E> {
 
     }
 
-    public Object stream() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'stream'");
-    }
+
+
+     
 
 }

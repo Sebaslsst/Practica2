@@ -14,7 +14,7 @@ import Expresion from 'Frontend/generated/practica/com/base/models/Expresion';
 export const config: ViewConfig = {
   title: 'Artista Banda',
   menu: {
-    icon: 'vaadin:clipboard-check',
+    icon: 'vaadin:link',
     order: 3,
     title: 'Artista Banda',
   },

@@ -11,7 +11,7 @@ import { BandaService } from 'Frontend/generated/endpoints';
 export const config: ViewConfig = {
   title: 'Banda',
   menu: {
-    icon: 'vaadin:clipboard-check',
+    icon: 'vaadin:group',
     order: 2,
     title: 'Banda',
   },

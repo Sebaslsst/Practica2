@@ -3,7 +3,6 @@ ArtistaBandaService.ts
 ArtistaService.ts
 BandaService.ts
 CancionService.ts
-CancionServices.ts
 ExpresionService.ts
 TaskService.ts
 practica/com/base/models/Album.ts

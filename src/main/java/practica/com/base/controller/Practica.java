@@ -1,165 +1,147 @@
 package practica.com.base.controller;
 
-import java.io.*;
-import java.util.*;
+import practica.com.base.controller.datastruct.list.LinkedList;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class Practica {
 
-    static class Node<E> {
-        E data;
-        Node<E> next;
-        Node(E data) { this.data = data; }
-    }
-
-    static class LinkedList<E> {
-        private Node<E> head;
-        private int length = 0;
-
-        public void add(E data) {
-            Node<E> newNode = new Node<>(data);
-            if (head == null) {
-                head = newNode;
-            } else {
-                Node<E> current = head;
-                while (current.next != null) current = current.next;
-                current.next = newNode;
-            }
-            length++;
-        }
-
-        public E get(int index) {
-            Node<E> current = head;
-            int i = 0;
-            while (current != null && i < index) {
-                current = current.next;
-                i++;
-            }
-            return current != null ? current.data : null;
-        }
-
-        public int getLength() {
-            return length;
-        }
-
-        public Node<E> getHead() {
-            return head;
-        }
-
-        public void loadFromFile(String filePath) throws IOException {
-            head = null;
-            length = 0;
-            BufferedReader br = new BufferedReader(new FileReader(filePath));
+    public static LinkedList<Integer> cargarListaDesdeArchivo(String filePath) {
+        LinkedList<Integer> lista = new LinkedList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] parts = line.trim().split("[,\\s]+");
                 for (String part : parts) {
                     if (!part.isEmpty()) {
-                        add((E) Integer.valueOf(part));
+                        lista.add(Integer.valueOf(part));
                     }
                 }
             }
-            br.close();
+        } catch (IOException e) {
+            System.out.println("Error cargando el archivo: " + e.getMessage());
         }
+        return lista;
     }
 
-    public static List<Integer> detectarYGuardarRepetidos(LinkedList<Integer> list) {
-        HashSet<Integer> unicos = new HashSet<>();
-        List<Integer> repetidos = new ArrayList<>();
-        Node<Integer> actual = list.getHead();
-        while (actual != null) {
-            int valor = actual.data;
-            if (!unicos.add(valor)) {
-                if (!repetidos.contains(valor)) {
-                    repetidos.add(valor);
-                }
-            }
-            actual = actual.next;
-        }
-        return repetidos;
-    }
-
-    public static List<Integer> detectarRepetidosArreglo(int[] arr) {
-        HashSet<Integer> unicos = new HashSet<>();
-        List<Integer> repetidos = new ArrayList<>();
-        
-        for (int valor : arr) {
-            if (!unicos.add(valor)) {
-                if (!repetidos.contains(valor)) {
-                    repetidos.add(valor);
+    public static LinkedList<Integer> detectarRepetidosArregloOrdenado(int[] arr) {
+        LinkedList<Integer> repetidos = new LinkedList<>();
+        if (arr.length == 0)
+            return repetidos;
+        for (int i = 1; i < arr.length; i++) {
+            if (arr[i] == arr[i - 1]) {
+                if (repetidos.getLength() == 0 || !repetidos.get(repetidos.getLength() - 1).equals(arr[i])) {
+                    repetidos.add(arr[i]);
                 }
             }
         }
         return repetidos;
     }
 
-    public static int[] cargarArregloDesdeArchivo(String filePath) throws IOException {
-        List<Integer> lista = new ArrayList<>();
-        BufferedReader br = new BufferedReader(new FileReader(filePath));
-        String line;
-        while ((line = br.readLine()) != null) {
-            String[] parts = line.trim().split("[,\\s]+");
-            for (String part : parts) {
-                if (!part.isEmpty()) {
-                    lista.add(Integer.valueOf(part));
-                }
+    public static void quickSort(int[] arr, int inicio, int fin) {
+        if (inicio >= fin)
+            return;
+        int pivote = arr[inicio];
+        int izq = inicio + 1;
+        int der = fin;
+        while (izq <= der) {
+            while (izq <= fin && arr[izq] < pivote)
+                izq++;
+            while (der > inicio && arr[der] >= pivote)
+                der--;
+            if (izq < der) {
+                int temp = arr[izq];
+                arr[izq] = arr[der];
+                arr[der] = temp;
             }
         }
-        br.close();
-        int[] arr = new int[lista.size()];
-        for (int i = 0; i < lista.size(); i++) arr[i] = lista.get(i);
-        return arr;
+        if (der > inicio) {
+            int temp = arr[inicio];
+            arr[inicio] = arr[der];
+            arr[der] = temp;
+        }
+        quickSort(arr, inicio, der - 1);
+        quickSort(arr, der + 1, fin);
+    }
+
+    public static void shellSort(int[] arr) {
+        int n = arr.length;
+        for (int gap = n / 2; gap > 0; gap /= 2) {
+            for (int i = gap; i < n; i++) {
+                int temp = arr[i];
+                int j = i;
+                while (j >= gap && arr[j - gap] > temp) {
+                    arr[j] = arr[j - gap];
+                    j -= gap;
+                }
+                arr[j] = temp;
+            }
+        }
     }
 
     public static void main(String[] args) {
         String filePath = "data.txt";
-        long[] tiemposLista = new long[3];
-        long[] tiemposArreglo = new long[3];
-        Scanner scanner = new Scanner(System.in);
+        long tiempoLista, tiempoArreglo, tiempoQuick, tiempoShell;
 
-        for (int i = 1; i <= 3; i++) {
-            LinkedList<Integer> list = new LinkedList<>();
-            long tiempoInicio = System.currentTimeMillis();
-            try {
-                list.loadFromFile(filePath);
-            } catch (IOException e) {
-                System.out.println("Error cargando el archivo: " + e.getMessage());
-                return;
-            }
-            List<Integer> repetidosLista = detectarYGuardarRepetidos(list);
-            long totalTiempo = System.currentTimeMillis() - tiempoInicio;
-            tiemposLista[i - 1] = totalTiempo;
-            System.out.println("Lista enlazada - Ejecución " + i + ":");
-            System.out.println("Valores repetidos detectados: " + repetidosLista);
-            System.out.println("Cantidad de elementos repetidos: " + repetidosLista.size());
-            System.out.println("Presiona Enter para ver el tiempo de ejecución...");
-            scanner.nextLine();
-            System.out.println("Tiempo de ejecución: " + totalTiempo + " ms\n");
+        long tiempoInicioLista = System.currentTimeMillis();
+        LinkedList<Integer> lista = cargarListaDesdeArchivo(filePath);
+        int[] arrLista = new int[lista.getLength()];
+        for (int k = 0; k < lista.getLength(); k++)
+            arrLista[k] = lista.get(k);
+        quickSort(arrLista, 0, arrLista.length - 1);
+        LinkedList<Integer> repetidosLista = detectarRepetidosArregloOrdenado(arrLista);
+        tiempoLista = System.currentTimeMillis() - tiempoInicioLista;
+        System.out.println("Lista enlazada:");
+        System.out.print("Valores repetidos detectados: ");
+        for (int j = 0; j < repetidosLista.getLength(); j++) {
+            System.out.print(repetidosLista.get(j));
+            if (j < repetidosLista.getLength() - 1)
+                System.out.print(", ");
         }
+        System.out.println();
+        System.out.println("Cantidad de elementos repetidos: " + repetidosLista.getLength());
+        System.out.println("Tiempo de ejecución: " + tiempoLista + " ms\n");
 
-        for (int i = 1; i <= 3; i++) {
-            long tiempoInicio = System.currentTimeMillis();
-            int[] arr;
-            try {
-                arr = cargarArregloDesdeArchivo(filePath);
-            } catch (IOException e) {
-                System.out.println("Error cargando el archivo: " + e.getMessage());
-                return;
-            }
-            List<Integer> repetidosArr = detectarRepetidosArreglo(arr);
-            long totalTiempo = System.currentTimeMillis() - tiempoInicio;
-            tiemposArreglo[i - 1] = totalTiempo;
-            System.out.println("Arreglo - Ejecución " + i + ":");
-            System.out.println("Valores repetidos detectados: " + repetidosArr);
-            System.out.println("Cantidad de elementos repetidos: " + repetidosArr.size());
-            System.out.println("Presiona Enter para ver el tiempo de ejecución...");
-            scanner.nextLine();
-            System.out.println("Tiempo de ejecución: " + totalTiempo + " ms\n");
+        long tiempoInicioArr = System.currentTimeMillis();
+        LinkedList<Integer> listaArr = cargarListaDesdeArchivo(filePath);
+        int[] arr = new int[listaArr.getLength()];
+        for (int k = 0; k < listaArr.getLength(); k++)
+            arr[k] = listaArr.get(k);
+        quickSort(arr, 0, arr.length - 1);
+        LinkedList<Integer> repetidosArr = detectarRepetidosArregloOrdenado(arr);
+        tiempoArreglo = System.currentTimeMillis() - tiempoInicioArr;
+        System.out.println("Arreglo:");
+        System.out.print("Valores repetidos detectados: ");
+        for (int j = 0; j < repetidosArr.getLength(); j++) {
+            System.out.print(repetidosArr.get(j));
+            if (j < repetidosArr.getLength() - 1)
+                System.out.print(", ");
         }
+        System.out.println();
+        System.out.println("Cantidad de elementos repetidos: " + repetidosArr.getLength());
+        System.out.println("Tiempo de ejecución: " + tiempoArreglo + " ms\n");
 
-        System.out.println("\nTabla comparativa de tiempos:");
-        System.out.println("Ejecución\tLista enlazada (ms)\tArreglo (ms)");
-        for (int i = 0; i < 3; i++) {
-            System.out.println((i + 1) + "\t\t" + tiemposLista[i] + "\t\t\t" + tiemposArreglo[i]);
-        }
+        LinkedList<Integer> listaQ = cargarListaDesdeArchivo(filePath);
+        int[] arrQS = new int[listaQ.getLength()];
+        for (int j = 0; j < listaQ.getLength(); j++)
+            arrQS[j] = listaQ.get(j);
+        long t1 = System.currentTimeMillis();
+        quickSort(arrQS, 0, arrQS.length - 1);
+        long t2 = System.currentTimeMillis();
+        tiempoQuick = t2 - t1;
+
+        LinkedList<Integer> listaS = cargarListaDesdeArchivo(filePath);
+        int[] arrShell = new int[listaS.getLength()];
+        for (int j = 0; j < listaS.getLength(); j++)
+            arrShell[j] = listaS.get(j);
+        long t3 = System.currentTimeMillis();
+        shellSort(arrShell);
+        long t4 = System.currentTimeMillis();
+        tiempoShell = t4 - t3;
+
+        System.out.println("\nTabla de tiempos:");
+        System.out.println("QuickSort (ms)\tShellSort (ms)");
+        System.out.println(tiempoQuick + "\t\t" + tiempoShell);
     }
 }

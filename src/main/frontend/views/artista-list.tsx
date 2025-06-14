@@ -12,7 +12,7 @@ import { useEffect } from 'react';
 export const config: ViewConfig = {
   title: 'Artistas',
   menu: {
-    icon: 'vaadin:clipboard-check',
+    icon: 'vaadin:user',
     order: 1,
     title: 'Artistas',
   },
