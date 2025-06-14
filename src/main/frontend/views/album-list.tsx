@@ -17,7 +17,7 @@ type Album = {
 export const config: ViewConfig = {
   title: 'Álbumes',
   menu: {
-    icon: 'vaadin:clipboard-check',
+    icon: 'vaadin:records',
     order: 2,
     title: 'Álbumes',
   },

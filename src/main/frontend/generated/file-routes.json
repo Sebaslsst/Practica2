@@ -18,7 +18,7 @@
         "route": "album-list",
         "title": "Álbumes",
         "menu": {
-          "icon": "vaadin:clipboard-check",
+          "icon": "vaadin:records",
           "order": 2,
           "title": "Álbumes"
         },
@@ -29,7 +29,7 @@
         "route": "artista-list",
         "title": "Artistas",
         "menu": {
-          "icon": "vaadin:clipboard-check",
+          "icon": "vaadin:user",
           "order": 1,
           "title": "Artistas"
         },
@@ -40,7 +40,7 @@
         "route": "artistabanda-list",
         "title": "Artista Banda",
         "menu": {
-          "icon": "vaadin:clipboard-check",
+          "icon": "vaadin:link",
           "order": 3,
           "title": "Artista Banda"
         },
@@ -51,7 +51,7 @@
         "route": "banda-list",
         "title": "Banda",
         "menu": {
-          "icon": "vaadin:clipboard-check",
+          "icon": "vaadin:group",
           "order": 2,
           "title": "Banda"
         },
@@ -62,7 +62,7 @@
         "route": "cancion-list",
         "title": "Cancion",
         "menu": {
-          "icon": "vaadin:book",
+          "icon": "vaadin:music",
           "order": 1,
           "title": "Cancion"
         },
