@@ -1,3 +1,3 @@
-# Practica2
-Practica 2 
+# Practica_3
+Practica 3 
 - Leonardo Sánchez
